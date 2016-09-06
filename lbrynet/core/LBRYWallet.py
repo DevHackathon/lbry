@@ -1208,6 +1208,7 @@ class LBRYumWallet(LBRYWallet):
         accounts = None
         exclude_claimtrietx = True
         d = threads.deferToThread(func, accounts, exclude_claimtrietx)
+        d.addErrback(lambda _: func(accounts))
         d.addCallback(lambda result: result['confirmed'])
         d.addCallback(Decimal)
         return d
